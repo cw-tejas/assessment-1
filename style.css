@@ -55,6 +55,10 @@ body {
   font-family: "Karla", sans-serif;
 }
 
+.primary-red-border {
+  border-color: var(--primary-red);
+}
+
 button {
   margin-top: 16px;
   width: 100%;
@@ -111,7 +115,11 @@ input[type="radio"] {
 }
 
 .container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   padding: 32px;
+  margin: 32px auto;
   border-radius: 8px;
 }
 
@@ -119,7 +127,7 @@ input[type="radio"] {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .double-box {
@@ -130,6 +138,12 @@ input[type="radio"] {
 
 .double-box .field {
   width: 100%;
+}
+
+.double-box .checkbox-item {
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 .checkbox-item {
@@ -155,6 +169,10 @@ input[type="radio"] {
   color: var(--primary-red);
 }
 
+.consent-field {
+    margin-top: 12px;
+}
+
 .toaster {
   position: absolute;
   top: 16px;
@@ -175,15 +193,38 @@ input[type="radio"] {
   flex-direction: row;
   align-items: center;
   gap: 8px;
+  font-weight: 700;
 }
 
 .required-mark {
   color: var(--primary-green-medium);
 }
 
+.error-field {
+  border-color: var(--primary-red);
+}
+
 @media screen and (max-width: 375px) {
-  .double-box {
-    flex-direction: column;
-    gap: 0px;
-  }
+    .container {
+        /* background-color: blue; */
+    }
+    .double-box {
+        flex-direction: column;
+        gap: 0px;
+    }
+}
+
+@media (min-width: 375px) and (max-width: 768px) {
+    .container {
+        /* background-color: red; */
+    }   
+    #name-field-box {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1440px) {
+    .container {
+        /* background-color: green; */
+    }
 }
