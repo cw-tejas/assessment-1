@@ -2,6 +2,7 @@ document.querySelectorAll('input[type="text"], input[type="email"], textarea').f
     input.addEventListener('input', () => {
       const errorMessage = input.nextElementSibling;
       if (errorMessage) {
+        input.classList.remove("primary-red-border");
         errorMessage.style.display = 'none';
       }
     });
@@ -88,17 +89,23 @@ function verifyName() {
     const lNameErrorMessage = lName.nextElementSibling;
 
     if (fName.value.trim() === '') {
+        fName.classList.add('primary-red-border');
         fNameErrorMessage.style.display = 'block';
         isValid = false;
     } else {
+        fName.classList.remove('primary-red-border');
         fNameErrorMessage.style.display = 'none';
+        isValid = true;
     }
 
     if (lName.value.trim() === '') {
+        lName.classList.add('primary-red-border');
         lNameErrorMessage.style.display = 'block';
         isValid = false;
     } else {
+        lName.classList.remove('primary-red-border');
         lNameErrorMessage.style.display = 'none';
+        isValid = true;
     }
 }
 
@@ -109,13 +116,17 @@ function verifyEmail() {
     const emailErrorMessage = email.nextElementSibling;
 
     if (email.value.trim() === '') {
+        email.classList.add('primary-red-border');
         emailErrorMessage.style.display = 'block';
         isValid = false;
     } else if (!email.value.match(emailRegex)) {
+        email.classList.add('primary-red-border');
         emailErrorMessage.style.display = 'block';
         isValid = false;
     } else {
+        email.classList.remove('primary-red-border');
         emailErrorMessage.style.display = 'none';
+        isValid = true;
     }
 }
 
@@ -129,6 +140,7 @@ function verifyQueryType() {
     } else {
         const queryTypeErrorMessage = document.querySelector('.query-type-message');
         queryTypeErrorMessage.style.display = 'none';
+        isValid = true;
     }
 }
 
@@ -138,10 +150,13 @@ function verifyMessage() {
     const messageErrorMessage = message.nextElementSibling;
 
     if (message.value.trim() === '') {
+        message.classList.add('primary-red-border');
         messageErrorMessage.style.display = 'block';
         isValid = false;
     } else {
+        message.classList.remove('primary-red-border');
         messageErrorMessage.style.display = 'none';
+        isValid = true;
     }
 
     // Verify consent
@@ -153,5 +168,6 @@ function verifyMessage() {
         isValid = false;
     } else {
         consentErrorMessage.style.display = 'none';
+        isValid = true;
     }
 }
