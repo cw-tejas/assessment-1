@@ -1,67 +1,78 @@
+// Add event listeners for input fields to remove error messages on input
 document.querySelectorAll('input[type="text"], input[type="email"], textarea').forEach((input) => {
     input.addEventListener('input', () => {
-      const errorMessage = input.nextElementSibling;
-      if (errorMessage) {
-        input.classList.remove("primary-red-border");
-        errorMessage.style.display = 'none';
-      }
+        const errorMessage = input.parentElement.querySelector('.error-message');
+        if (errorMessage) {
+            input.classList.remove("primary-red-border");
+            errorMessage.remove();
+        }
     });
-  });
+});
 
 document.querySelectorAll('input[name="qType"]').forEach((radio) => {
-radio.addEventListener('change', () => {
-    const errorMessage = document.querySelector('.query-type-message');
-    if (errorMessage) {
-    errorMessage.style.display = 'none';
-    }
-});
+    radio.addEventListener('change', () => {
+        const errorMessage = document.querySelector('.query-type-field .error-message');
+        if (errorMessage) {
+            errorMessage.remove();
+        }
+    });
 });
 
 // Add event listener to consent checkbox
 document.getElementById('consent').addEventListener('change', () => {
-const errorMessage = document.querySelector('.consent-message');
-if (errorMessage) {
-    errorMessage.style.display = 'none';
-}
+    const errorMessage = document.querySelector('.consent-field .error-message');
+    if (errorMessage) {
+        errorMessage.remove();
+    }
 });
 
-document
-  .querySelectorAll('.checkbox-item input[type="radio"]')
-  .forEach((radio) => {
-    radio.addEventListener("change", function () {
-      // Remove 'selected' class from all radio cards
-      document
-        .querySelectorAll(".checkbox-item")
-        .forEach((card) => card.classList.remove("selected-checkbox"));
-
-      // Add 'selected' class to the parent of the clicked radio button
-      this.parentElement.classList.add("selected-checkbox");
+// Add selected class on radio selection
+document.querySelectorAll('.checkbox-item input[type="radio"]').forEach((radio) => {
+    radio.addEventListener('change', function () {
+        document.querySelectorAll(".checkbox-item").forEach((card) => card.classList.remove("selected-checkbox"));
+        this.parentElement.classList.add("selected-checkbox");
     });
-  });
+});
 
+// Handle form submission
 document.querySelector('button').addEventListener('click', (event) => {
     event.preventDefault();
     submitForm();
 });
 
-// Verify all fields and display errors
 let isValid = true;
+
+// Remove all error messages before resetting the form
+function clearErrorMessages() {
+    document.querySelectorAll('.error-message').forEach((errorMessage) => {
+        errorMessage.remove();
+    });
+    document.querySelectorAll('.primary-red-border').forEach((element) => {
+        element.classList.remove('primary-red-border');
+    });
+}
+
 function verifyAllFields() {
+    isValid = true;  // Reset validation status
     verifyName();
     verifyEmail();    
     verifyQueryType();
     verifyMessage();
+    verifyConsent();  // Include consent verification
     return isValid;
 }
 
-// submit
+// Submit form
 function submitForm() {
+    clearErrorMessages(); // Clear previous error messages before validation
+
     if (!verifyAllFields()) {
         return;
     }
 
     showToaster();
 
+    // Reset form fields after successful submission
     document.getElementById('fName').value = '';
     document.getElementById('lName').value = '';
     document.getElementById('email').value = '';
@@ -71,7 +82,7 @@ function submitForm() {
     document.querySelector('input[name="qType"]').checked = false;
 }
 
-// toaster
+// Show toaster notification
 function showToaster() {
     const toaster = document.querySelector('.toaster');
     toaster.style.display = 'block';
@@ -80,94 +91,92 @@ function showToaster() {
     }, 3000);
 }
 
+// Create error message element
+function createErrorMessage(field, message) {
+    let existingErrorMessage = field.querySelector('.error-message');
+    if (existingErrorMessage) {
+        return; // If error message already exists, do nothing
+    }
 
-// verfiy name
+    const errorElement = document.createElement('span');
+    errorElement.className = 'error-message';
+    errorElement.style.color = 'red';
+    errorElement.textContent = message;
+    field.appendChild(errorElement);
+}
+
+// Verify first and last names
 function verifyName() {
+    const nameRegex = /^[a-zA-Z\s]+$/;
     const fName = document.getElementById('fName');
     const lName = document.getElementById('lName');
-    const fNameErrorMessage = fName.nextElementSibling;
-    const lNameErrorMessage = lName.nextElementSibling;
 
     if (fName.value.trim() === '') {
         fName.classList.add('primary-red-border');
-        fNameErrorMessage.style.display = 'block';
+        createErrorMessage(fName.parentElement, 'First name is required');
         isValid = false;
-    } else {
-        fName.classList.remove('primary-red-border');
-        fNameErrorMessage.style.display = 'none';
-        isValid = true;
+    } else if (!fName.value.match(nameRegex)) {
+        fName.classList.add('primary-red-border');
+        createErrorMessage(fName.parentElement, 'Invalid first name');
+        isValid = false;
     }
 
     if (lName.value.trim() === '') {
         lName.classList.add('primary-red-border');
-        lNameErrorMessage.style.display = 'block';
+        createErrorMessage(lName.parentElement, 'Last name is required');
         isValid = false;
-    } else {
-        lName.classList.remove('primary-red-border');
-        lNameErrorMessage.style.display = 'none';
-        isValid = true;
+    } else if (!lName.value.match(nameRegex)) {
+        lName.classList.add('primary-red-border');
+        createErrorMessage(lName.parentElement, 'Invalid last name');
+        isValid = false;
     }
 }
 
-// Verify email
+// Verify email address
 function verifyEmail() {
     const email = document.getElementById('email');
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const emailErrorMessage = email.nextElementSibling;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (email.value.trim() === '') {
         email.classList.add('primary-red-border');
-        emailErrorMessage.style.display = 'block';
+        createErrorMessage(email.parentElement, 'Email is required');
         isValid = false;
     } else if (!email.value.match(emailRegex)) {
         email.classList.add('primary-red-border');
-        emailErrorMessage.style.display = 'block';
+        createErrorMessage(email.parentElement, 'Please enter a valid email address');
         isValid = false;
-    } else {
-        email.classList.remove('primary-red-border');
-        emailErrorMessage.style.display = 'none';
-        isValid = true;
     }
 }
 
-// Verify query type
+// Verify query type selection
 function verifyQueryType() {
     const queryType = document.querySelector('input[name="qType"]:checked');
+    const queryTypeField = document.querySelector('.query-type-field');
+    
     if (!queryType) {
-        const queryTypeErrorMessage = document.querySelector('.query-type-message');
-        queryTypeErrorMessage.style.display = 'block';
+        createErrorMessage(queryTypeField, 'Please select a query type');
         isValid = false;
-    } else {
-        const queryTypeErrorMessage = document.querySelector('.query-type-message');
-        queryTypeErrorMessage.style.display = 'none';
-        isValid = true;
     }
 }
 
-// verify message
+// Verify message field
 function verifyMessage() {
     const message = document.getElementById('message');
-    const messageErrorMessage = message.nextElementSibling;
 
     if (message.value.trim() === '') {
         message.classList.add('primary-red-border');
-        messageErrorMessage.style.display = 'block';
+        createErrorMessage(message.parentElement, 'Message is required');
         isValid = false;
-    } else {
-        message.classList.remove('primary-red-border');
-        messageErrorMessage.style.display = 'none';
-        isValid = true;
     }
+}
 
-    // Verify consent
+// Verify consent checkbox
+function verifyConsent() {
     const consent = document.getElementById('consent');
-    const consentErrorMessage = document.querySelector('.consent-message');
+    const consentField = document.querySelector('.consent-field');
 
     if (!consent.checked) {
-        consentErrorMessage.style.display = 'block';
+        createErrorMessage(consentField, 'Please consent to submit this form');
         isValid = false;
-    } else {
-        consentErrorMessage.style.display = 'none';
-        isValid = true;
     }
 }
