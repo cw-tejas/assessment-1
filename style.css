@@ -1,0 +1,230 @@
+@font-face {
+  font-family: "Karla";
+  src: url("assets/fonts/static/Karla-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Karla";
+  src: url("assets/fonts/static/Karla-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* define color variables */
+:root {
+  --primary-green-light: hsl(148, 38%, 91%);
+  --primary-green-medium: hsl(169, 82%, 27%);
+  --primary-red: hsl(0, 66%, 54%);
+  --neutral-white: hsl(0, 0%, 100%);
+  --neutral-grey-medium: hsl(186, 15%, 59%);
+  --neutral-grey-darker: hsl(187, 24%, 22%);
+}
+
+/* color schema */
+.primary-green-light {
+  background-color: var(--primary-green-light);
+}
+
+.primary-green-medium {
+  background-color: var(--primary-green-medium);
+}
+
+.primary-red {
+  background-color: var(--primary-red);
+}
+
+.neutral-white {
+  background-color: var(--neutral-white);
+}
+
+.neutral-grey-medium {
+  background-color: var(--neutral-grey-medium);
+}
+
+.neutral-grey-darker {
+  background-color: var(--neutral-grey-darker);
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: "Karla", sans-serif;
+}
+
+.primary-red-border {
+  border-color: var(--primary-red);
+}
+
+button {
+  margin-top: 16px;
+  width: 100%;
+  padding: 16px;
+  font-weight: 700;
+  border-width: 1px;
+  border-radius: 8px;
+  outline-width: 1px;
+  background-color: var(--primary-green-medium);
+  color: var(--neutral-white);
+  cursor: pointer;
+}
+
+input,
+textarea {
+  padding: 8px;
+  font-size: 1.1rem;
+  border-width: 1px;
+  border-radius: 8px;
+  border-color: var(--neutral-grey-medium);
+}
+
+label,
+input,
+textarea {
+  color: var(--neutral-grey-darker);
+}
+
+textarea {
+  height: 128px;
+}
+
+/* .active-field {
+border-color: var(--primary-green-medium);
+}
+
+.active-checkbox {
+border-color: var(--primary-green-medium);
+background-color: var(--primary-green-light);
+} */
+
+input:focus,
+textarea:focus,
+input:active,
+textarea:active {
+  border-color: var(--primary-green-medium);
+  border-width: 1px;
+  outline: none;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--primary-green-medium);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 32px;
+  margin: 32px auto;
+  border-radius: 8px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.double-box {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.double-box .field {
+  width: 100%;
+}
+
+.double-box .checkbox-item {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.checkbox-item {
+  border: 1px solid var(--neutral-grey-medium);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.checkbox-item:active {
+  background-color: var(--primary-green-light);
+}
+
+.selected-checkbox {
+  border-color: var(--primary-green-medium);
+  background-color: var(--primary-green-light);
+}
+
+.message {
+  display: none;
+  color: var(--primary-red);
+}
+
+.consent-field {
+    margin-top: 12px;
+}
+
+.toaster {
+  position: absolute;
+  top: 16px;
+  margin: 0 auto;
+  color: var(--neutral-white);
+  background-color: var(--neutral-grey-darker);
+  border-radius: 8px;
+  padding: 16px;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  display: none;
+  position: fixed;
+}
+
+.toaster div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.required-mark {
+  color: var(--primary-green-medium);
+}
+
+.error-field {
+  border-color: var(--primary-red);
+}
+
+@media screen and (max-width: 375px) {
+    .container {
+        /* background-color: blue; */
+    }
+    .double-box {
+        flex-direction: column;
+        gap: 0px;
+    }
+}
+
+@media (min-width: 375px) and (max-width: 768px) {
+    .container {
+        /* background-color: red; */
+    }   
+    #name-field-box {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1440px) {
+    .container {
+        /* background-color: green; */
+    }
+}
